@@ -1,0 +1,15 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+/home/*/.cache/pypoetry/virtualenvs
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Environment variables
+.env
