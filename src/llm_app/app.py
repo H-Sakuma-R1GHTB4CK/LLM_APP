@@ -3,12 +3,13 @@ import tiktoken
 def main():
     print("Hello from llm_app.app.main()")
 
-def count_tokens(text: str, model_name: str) -> int:
+def count_tokens(text: str, model_name: str) -> list[int]:
     # model_name = "gpt-3.5-turbo"
     encoding = tiktoken.encoding_for_model(model_name)
     # text = "This is a test for tiktoken."
     tokens = encoding.encode(text)
     print(f"Number of tokens in '{text}': {len(tokens)}")
+    return tokens
 
 
 def demo_streamlit():
