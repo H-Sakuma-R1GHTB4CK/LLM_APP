@@ -110,6 +110,8 @@ def get_content(url: str) -> str | None:
     # Youtubeの場合は、字幕(transcript)を取得して、要約に利用する
     with st.spinner("Fetching Content... / コンテンツを取得中..."):
             lang_order = ("en", "ja")  # 英語→日本語の優先順位で字幕を取得
+            res = None
+            last_err = None  # 最後のエラーを保持する
             for lang in lang_order:
                 st.write(f"[DEBUG]▶ Using language: {lang}")
                 try:
@@ -122,12 +124,15 @@ def get_content(url: str) -> str | None:
                     break  # 成功したらforループを抜ける
                 except Exception as e:
                     last_err = e
-                    st.caption("日本語または英語の字幕が取得できませんでした。URLが正しいか確認してください。")
+                    # st.caption("日本語または英語の字幕が取得できませんでした。URLが正しいか確認してください。")
+                    # st.error(f"[DEBUG ERROR] {lang} で取得失敗: {e}")
                     # st.write(traceback.format_exc())  # エラーの詳細を表示
-
+            if res is None:
+                # st.error("字幕取得に失敗しました。最後の例外はこちらです。")
+                # st.write(f"[DEBUG] last_err: {last_err}")
+                return None
             # res は Document型 のリスト
             # res[0] は最初の Document で、page_content と metadata を持つ
-            print(res)
             try:
                 if res:
                     content = res[0].page_content
