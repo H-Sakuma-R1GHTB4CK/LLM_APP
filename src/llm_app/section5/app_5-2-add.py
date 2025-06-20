@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 # Youtubeの動画を要約するためのプロンプト
-from langchain_community.document_loaders import YoutubeLoader
+from langchain_community.document_loaders.youtube import YoutubeLoader
 from langchain_core.documents import Document
 
 SUMMARIZE_PROMPT:str = """以下のコンテンツについて、内容を300字程度でわかりやすく要約してください
@@ -158,12 +158,16 @@ def main():
                 super_prompt_text = SUPER_SUMMARIZE_PROMPT.format(content=content)
                 st.markdown("### 要約(300字程度)")
                 # その完成形をプレースホルダー summarize_prompt に渡す
-                summary_text: str = st.write_stream(chain.stream({"summarize_prompt": prompt_text}))
+                summary_text = st.write_stream(chain.stream({"summarize_prompt": prompt_text}))
+                if isinstance(summary_text, list):
+                    summary_text = "".join(summary_text)
                 num_chars = len(summary_text.replace("\n", ""))
                 st.markdown(f"_（{num_chars} 文字）_")
                 st.markdown("---")
                 st.markdown("### 超要約(100字程度)")
-                summary_text: str = st.write_stream(chain.stream({"summarize_prompt": super_prompt_text}))
+                summary_text = st.write_stream(chain.stream({"summarize_prompt": super_prompt_text}))
+                if isinstance(summary_text, list):
+                    summary_text = "".join(summary_text)
                 num_chars = len(summary_text.replace("\n", ""))
                 st.markdown(f"_（{num_chars} 文字）_")
                 st.markdown("---")
