@@ -73,7 +73,8 @@ def init_chain():
             # 日本語文書の処理でセパレータを変更するのなら以下の文のコメントアウトを外す
             # separators=["\n\n", "\n", "。", "、", " ", ""]
             )
-    text_split = RunnableLambda(
+    #! text_split は str を受け取り、list[dict[str, str]] を返すRunnableLambda
+    text_split:RunnableLambda[str, list[dict[str, str]]] = RunnableLambda(
         lambda x: [
         {"content": doc}
         for doc in text_splitter.split_text(
@@ -85,6 +86,7 @@ def init_chain():
         lambda x: {"content": "\n".join(cast(list[str], x))}
     )
     map_reduce_chain = (
+        #! textsplit はlistを返すので、それぞれにsummarize_chainを適用するため、.map()を使用
         text_split | summarize_chain.map() | text_concat | summarize_chain
     )
 
