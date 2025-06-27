@@ -30,7 +30,7 @@ def get_pdf_text():
         with st.spinner("PDFを読み込んでいます..."):
             pdf_doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
             for page in pdf_doc:
-                pdf_text += page.get_text()
+                pdf_text += page.get_text() # type: ignore
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             model_name="text_embedding-3-small",
             # 適切なチャンクサイズは質問対象のPDFの内容によるため、調整が必要
