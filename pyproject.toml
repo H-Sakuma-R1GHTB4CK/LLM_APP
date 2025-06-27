@@ -23,6 +23,8 @@ beautifulsoup4 = "*"
 "langchain-text-splitters" = "*"
 "youtube-transcript-api" = ">=1.1.0"
 pytube = "*"
+PyMuPDF = "*"
+faiss-cpu = "*"
 
 [tool.poetry.scripts]
 llm-app = "llm_app.app:main"
